@@ -14,7 +14,9 @@ const { DEFAULT_CONFIG } = require('../../src/modules/martin-common/config');
 const CONTRACT_SCHEMA_SHA256 = 'ef8a1fe7ca4aae53fbe0e61835e8dce8fe182ebe8db53c1c8ac33a9ca0eeb365';
 
 test('Contrato: las pruebas usan una copia idéntica de schema.sql v1.1', () => {
-  const hash = crypto.createHash('sha256').update(fs.readFileSync(SCHEMA_PATH)).digest('hex');
+  // Se normaliza el fin de linea: git puede convertir LF a CRLF en Windows.
+  const content = fs.readFileSync(SCHEMA_PATH, 'utf8').replace(/\r\n/g, '\n');
+  const hash = crypto.createHash('sha256').update(content).digest('hex');
   assert.equal(hash, CONTRACT_SCHEMA_SHA256);
 });
 
