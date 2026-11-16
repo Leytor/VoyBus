@@ -1,8 +1,10 @@
-# Dependencies
 node_modules/
-
-# Environment variables
+.expo/
 .env
-
-# Logs
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-*
+*.db
 *.log
+.DS_Store

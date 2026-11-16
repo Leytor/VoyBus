@@ -1,16 +1,27 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "voybus-backend-integrado",
+  "version": "1.2.0",
+  "private": true,
+  "description": "VoyBus API - RED-01, RED-02 (paraderos), VIA-01/02/03 + autenticación compartida",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "type": "commonjs",
   "scripts": {
-    "test": "node --test \"test/**/*.test.js\"",
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:init": "node scripts/init-db.js",
+    "db:seed": "node scripts/seed.js",
+    "demo:trip": "node scripts/demo-trip.js",
+    "demo:progress": "node scripts/demo-progress.js",
+    "test": "node --test tests/*.test.js test/martin/*.test.js",
+    "check": "node --check src/app.js && node --check src/modules/martin.routes.js && npm test",
+    "db:map:update": "node scripts/update-demo-map.js",
+    "db:seed:martin": "node scripts/seed-martin.js",
+    "test:gianny": "node --test tests/*.test.js",
+    "test:martin": "node --test test/martin/*.test.js",
     "simulate:gps": "node scripts/simulateGps.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "express": "^5.2.1"
   },

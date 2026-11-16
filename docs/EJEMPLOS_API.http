@@ -1,0 +1,62 @@
+# Visual Studio Code REST Client o referencia para Postman.
+# Necesita backend iniciado, seed y demo:trip.
+@base = http://localhost:3000/api/v1
+
+### Salud del servidor
+GET http://localhost:3000/health
+
+### Líneas sin cuenta
+GET {{base}}/lines?search=DEMO&pageSize=20
+
+### Recorridos de línea
+GET {{base}}/lines/1/routes
+
+### Detalle recorrido
+GET {{base}}/routes/10
+
+### Paraderos
+GET {{base}}/stops?search=P001
+
+### Detalle del paradero
+GET {{base}}/stops/1
+
+### Cuenta demo pasajero
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{"email":"pasajero@voybus.local","password":"VoyBus2026!"}
+
+### Sesión invitada (copiar token resultante a @token)
+POST {{base}}/auth/guest
+
+### Probar token de invitado o pasajero
+@token = PEGAR_AQUI_TOKEN_OBTENIDO
+
+### Confirmar viaje activo
+GET {{base}}/vehicles/resolve/VB-010
+
+### Vincularse
+POST {{base}}/trip-links
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"vehicleCode":"VB-010"}
+
+### Lista futura (obtener tripStopId real de aquí)
+GET {{base}}/me/trip-link/stops
+Authorization: Bearer {{token}}
+
+### Solicitar parada (REEMPLAZAR tripStopId por uno de la respuesta anterior)
+POST {{base}}/me/stop-requests
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"tripStopId":1,"idempotencyKey":"7a0e6c23-3f8e-48c2-b751-f0c640d90001"}
+
+### Seguir solicitud
+GET {{base}}/me/stop-request
+Authorization: Bearer {{token}}
+
+### Desvincular
+DELETE {{base}}/me/trip-link
+Authorization: Bearer {{token}}
