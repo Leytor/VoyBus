@@ -1,0 +1,15 @@
+export type Role = 'passenger' | 'driver' | 'admin' | 'guest';
+export type SessionUser = { id: number; role: Exclude<Role, 'guest'>; fullName: string };
+export type Actor = { actorType: 'guest'; role: 'guest' } | { actorType: 'user'; user: SessionUser };
+export type Line = { id: number; code: string; name: string; colorHex: string; status: 'active'|'suspended'; startLabel: string|null; endLabel: string|null };
+export type RouteOverview = { id:number;lineId:number;direction:string;startLabel:string;endLabel:string;serviceDays:number[];startTimeLocal:string;endTimeLocal:string };
+export type Stop = { id:number;code:string;name:string;latitude:number;longitude:number };
+export type RouteStop = Stop & { routeStopId:number;stopId:number;sequence:number };
+export type Route = { id:number;lineId:number;lineCode:string;lineName:string;lineColorHex:string;lineStatus:string;direction:string;serviceDays:number[];startTimeLocal:string;endTimeLocal:string;startLabel:string;endLabel:string;geometry:{latitude:number;longitude:number}[];stops:RouteStop[] };
+export type StopDetail = Stop & { routes: {routeId:number;direction:string;startLabel:string;endLabel:string;lineId:number;lineCode:string;lineName:string;colorHex:string;lineStatus:string;sequence:number}[] };
+export type VehicleResolution = { vehicle:{id:number;code:string};trip:{id:number;status:string;lineId:number;lineCode:string;lineName:string;routeId:number;direction:string} };
+export type TripLink = { id:number;tripId:number;vehicleCode:string;lineCode:string;routeId:number;direction:string;linkedAt:string;tripStatus:string };
+export type FutureStop = { tripStopId:number;stopId:number;sequence:number;code:string;name:string;isNext:boolean };
+export type FutureStops = {tripId:number;lastPassedSequence:number;locationUpdatedAt:string|null;locationStale:boolean;stops:FutureStop[]};
+export type StopRequest = { id:number;tripId:number;tripStopId:number;destination:{code:string;name:string;sequence:number};status:'sent'|'next'|'closed';requestedAt:string;closedAt:string|null;closureReason:'stop_passed'|'trip_finished'|null;locationUpdatedAt:string|null;locationStale:boolean };
+export type Page<T>={data:T[];meta:{total:number;page:number;pageSize:number}};
